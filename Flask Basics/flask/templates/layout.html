@@ -1,0 +1,15 @@
+<!-- uses jinja enging to render templates -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- block declaration for jinja engine -->
+    <title>{% block title %}Default Layout{% endblock %}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- block declaration for jinja engine -->
+    {% block content %}{% endblock %}
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,8 @@
+<!-- uses jinja enging to render templates -->
+{% extends "layout.html" %}
+
+{% block title %}Adding numbers!{%endblock%}
+
+{% block content %}
+<h1>{{ num1 }} + {{ num2 }} = {{  num1 + num2}}</h1>
+{% endblock %}
