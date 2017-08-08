@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+{% block content %}
+<form class="form-horizontal" action="{{ url_for('save') }}" method="POST">
+    <fieldset>
+
+        <!-- Form Name -->
+        <legend>Cloudformation Template Generator</legend>
+
+        <!-- Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="createbutton"></label>
+            <div class="col-md-4">
+                <button id="createbutton" name="createbutton" class="btn btn-primary">Create Cloudformation JSON
+                </button>
+            </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="installationinput">Installation Name(s)</label>
+            <div class="col-md-4">
+                <input id="installationinput" name="installationinput" type="text"
+                       placeholder="Enter an installation name or number, or a comma separated list"
+                       class="form-control input-md">
+
+            </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="emailinput">Email for SNS</label>
+            <div class="col-md-4">
+                <input id="emailinput" name="emailinput" type="text"
+                       placeholder="Enter an email address that SNS notifications will go to"
+                       class="form-control input-md">
+
+            </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label class="col-md-4 control-label">Options</label>
+            <div class="col-md-4">
+                <br>
+                <div>
+                    {% for category, choices in options.items() %}
+                    <div>
+                        <div>
+                            <br>
+                            <p class="category-title">{{ category.title() }}</p>
+                        </div>
+                        <div>
+                            <input type="radio" id="no_{{ category }}_icon" name="{{ category }}" value=""
+                                   {%if not saves.get(category)%}checked{%endif%}>
+                            <label for="no_{{ category }}_icon">None</label><br>
+                            {% for choice in choices %}
+                            <input type="radio" id="{{ category }}-{{ choice }}_icon" name="{{ category }}"
+                                   value="{{ choice }}"
+                                   {%if saves.get(category)== choice%}checked{%endif%}>
+                            <label for="{{ category }}-{{ choice }}_icon">{{ choice }}</label><br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
+{% endblock %}
