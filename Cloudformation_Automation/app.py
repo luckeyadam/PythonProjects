@@ -15,6 +15,7 @@ from flask import (Flask, render_template, redirect,
 app = Flask(__name__)
 
 # set a key for flash messages that are assigned to users
+# TODO build out error handling and unit tests for application
 app.secret_key = 'asdflkj!23559086!fnasdfj&defln3'
 
 
@@ -49,6 +50,8 @@ def save():
     and then displays the output of the cloudformation in a flash message
     :return:
     """
+    # TODO split this stuff out for better separation of concerns and error handling
+    # but for quick testbed, this should work
     flash("Generated Template:")
     response = make_response(redirect(url_for('builder')))  # redirect back to index
     data = get_saved_data()  # attempt to get the cookie if its stored
@@ -59,7 +62,7 @@ def save():
 
     # create security group if it doesnt exist
     sg = sg_operations.create_sg(vpc_tasks.return_vpc_id(data['vpcs']), "test security group from flask builder",
-                            data['installationinput'])
+                                 data['installationinput'])
 
     template = create_cloudformation_template(data, sg)
 
@@ -74,7 +77,7 @@ def save():
     if formation_val_resp['ResponseMetadata']['HTTPStatusCode'] == 200:
         flash("template is valid building stack......")
         stack_response = client.create_stack(
-            StackName=data['installationinput']+"STACK",
+            StackName=data['installationinput'] + "STACK",
             TemplateBody=template,
             TimeoutInMinutes=10,
             ResourceTypes=[
@@ -83,7 +86,7 @@ def save():
             Tags=[
                 {
                     'Key': 'Name',
-                    'Value': data['installationinput']+"STACK"
+                    'Value': data['installationinput'] + "STACK"
                 },
             ]
         )

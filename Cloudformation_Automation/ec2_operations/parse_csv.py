@@ -4,7 +4,7 @@ import csv
 """
 Open a csv and return list of items from csv
 """
-
+# currently unused in the applicaiton
 def open_file(filename):
     """
     Returns a list from a csv

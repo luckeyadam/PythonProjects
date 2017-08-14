@@ -1,19 +1,26 @@
 #!/usr/bin/env python
 import boto3
 
-
 """
 Security group operations
 =========================
 Creates security groups
 """
 
+
 def create_sg(vpc_id, description, group_name):
+    """
+    Creates a security group to put new EC2 installations into
+    :param vpc_id:
+    :param description:
+    :param group_name:
+    :return:
+    """
     client = boto3.client('ec2')
     security_group = str(group_name + "_sg")
 
     # get the security groups
-    idle_sg=get_sg()
+    idle_sg = get_sg()
 
     print(idle_sg)
     print(security_group)
@@ -28,7 +35,12 @@ def create_sg(vpc_id, description, group_name):
         )
     return get_sg_id(security_group)
 
+
 def get_sg():
+    """
+    Returns a list of security groups that exist
+    :return:
+    """
     client = boto3.client('ec2')
     all_instances = client.describe_instances()
     all_sg = client.describe_security_groups()
@@ -48,7 +60,14 @@ def get_sg():
 
     return idle_sg
 
+
 def get_sg_id(sg_name):
+    """
+    Return a security group id based on SG name
+    (used when building EC2 instances since they require ID)
+    :param sg_name:
+    :return:
+    """
     print()
     print("Searching for SG ID")
     client = boto3.client('ec2')
@@ -61,4 +80,3 @@ def get_sg_id(sg_name):
             grp_id = sec_grp['GroupId']
     print()
     return grp_id
-
